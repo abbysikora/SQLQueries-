@@ -1,4 +1,7 @@
+/*These queries are from data of a fake toy company. The toy company keeps tracks of various information such as the buyer, returns, if the toy has a problem reported, etc. */
+
 -- Query #1
+/*Lists the reports that have a test date that comes before their report date*/
 SELECT pr.reportid AS ReportID,
 	   reportdate AS ReportDate,
 	   completedate AS CompleteDate,
@@ -10,7 +13,9 @@ INNER JOIN pTest
 ON pTest.reportid=pr.reportid
 WHERE testdate < reportdate
  
---Query #2
+--Query #2 
+/*Shows the amount of injury reports compared to the total amount of reports for each problem type*/
+
 CREATE VIEW vCoIR AS
 SELECT typeid,
        COUNT(typeid) AS CountofInjuryReports
@@ -35,6 +40,7 @@ LEFT OUTER JOIN vCoIR
 ON problemtypeid=vcoir.typeid
  
 --Query #3 
+/*Shows information for a given report done in a certian time frame*/
 SELECT CONVERT(varchar,reportdate, 107) AS ReportDateOutput,
 	   ReportID,
 	   pr.serialnumber AS Serial#,
@@ -178,6 +184,7 @@ WHERE completedate IS NUll AND CountOfTests IN (SELECT MAX(countoftests) FROM vC
 ORDER BY CONVERT(INT,pr.reportid)
  
 --Query #7
+/*Provides infomartion for a specific model of a toy*/
 CREATE VIEW vCR AS 
 SELECT m.modelnumber,
 	   COUNT(reportid) AS CountofReports
